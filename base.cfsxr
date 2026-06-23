@@ -1,0 +1,40 @@
+// AI Source Code for Lumi 1 (resource\Aikumi v22 (CocoCookie))
+// Using Crystal Studios AikumiStudio Code Lang (SMTLX)
+//File Stored At: localhost:3000\AikumiStudio\SourceEngine\local\repo\GitHub\woodsstudiosource\lumichatbot\new\Lumi-1-(Standard-Features)
+
+.importlib=list(?){
+?Resources\Ai-Core\SystemLevel\Functions\com.crystalstudios.aikumi.corefunc.ctx
+?Resources\Ai-Core\SystemLevel\Functions\AI\ai_connect.ctx
+?Resources\Ai-Core\SystemLevel\Server\Connections\13.7\webconnect.ctx
+?Resources\Ai-Core\SystemLevel\Functions\Display\systemdisp.ctx
+?Resources\Ai-Core\SystemLevel\Functions\Display\Sources\DiscordLib\chatapi.ctx
+  }
+
+.execute=HTTPRequest{
+  /ping=192.168.1.106:3000
+  {pingrespond=statusOK}
+      IF: {statusOK}
+        .execute=com.crystalstudios.aikumi.connections.ai
+
+        ELSE: {statusNILL}
+         .pop=?ERR\Connections\Reroute\sys.ll
+
+.using\resourcelib=AICore.ll
+        StartProccess=AICoreChatFunc.sls
+        ?ConnectionsFunc=ai_core_usr:http://localhost:3000/CrystalStudios/Client/AI/ChatService/v22/?requ=lumiservice
+        {authencate:LumiAuthService_32q3}
+
+.using\resourcelib=AICore\DisplayFuctiion.ll
+  StartProccess=ChatDisplay.sls
+  ?Resources\Ai-Core\SystemLevel\Functions\Display\Sources\sources.cxtx
+  .usingresource=.\Display\Sources
+       --ShowChatMessage=$usrstartmsg + LoggingStatus.exx
+          --ComputeSource=$usrmsg=AIModule=EtchexAI2.corefr
+       --ExportMessage=$clientcurrserver\clientcurrtextchannel\$output
+
+  .using\resourceslib=MessageCore\KeyboardFunctions.ll
+     ?ConnectionsFunc=replystat.slp
+       IF: .\discordlib\stats="USER-MENTIONED-YES"
+          --ExportMessage$output
+       ELSE: .\discordlib\stats="USER-MENTIONED-NO"
+         .nofunc
